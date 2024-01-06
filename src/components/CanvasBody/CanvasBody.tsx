@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import React, { useEffect } from "react"
 import ImageInput from "../ImageInput/ImageInput";
 import "./CanvasBody.css"
 
@@ -13,13 +13,11 @@ export default function CanvasBody({
     setInputColor
 }: Props) {
 
-    let canvas: HTMLCanvasElement
-
     function inputPickColorCallback(rgbaStr: string, setInputColor: any) {
         setInputColor(rgbaStr)
     }
 
-    function canvasClickCallback(event: any, setInputColor: any, ctx?: CanvasRenderingContext2D,) {
+    function canvasClickCallback(event: React.MouseEvent, setInputColor: any, ctx?: CanvasRenderingContext2D,) {
 
         if (setInputColor && ctx) {
 
@@ -36,8 +34,7 @@ export default function CanvasBody({
     }
 
     useEffect(() => {
-
-        canvas = document.getElementById("canvas") as HTMLCanvasElement
+        let canvas = document.getElementById("canvas") as HTMLCanvasElement
         let ctx = canvas.getContext("2d", { willReadFrequently: true }) as CanvasRenderingContext2D
         setCtx(ctx)
 
@@ -63,7 +60,7 @@ export default function CanvasBody({
     }, [])
 
 
-    const pickColor = (event: MouseEvent, setDestinationColor: any, ctx: CanvasRenderingContext2D, canvas?: HTMLCanvasElement) => {
+    const pickColor = (event: MouseEvent | React.MouseEvent, setDestinationColor: any, ctx: CanvasRenderingContext2D, canvas?: HTMLCanvasElement) => {
         if (!ctx || !canvas) {
             return
         }
@@ -73,6 +70,7 @@ export default function CanvasBody({
         const verticalOffset = event.clientY - canvasBoundingRect.top
 
         const pixel = ctx.getImageData(horizontalOffset, verticalOffset, 1, 1)
+
         const pixelData = pixel.data
         const rgbaString = `rgba(${pixelData[0]}, ${pixelData[1]}, ${pixelData[2]}, ${pixelData[3] / 255})`;
 
@@ -88,7 +86,7 @@ export default function CanvasBody({
         <div>
             <ImageInput ctx={ctx} />
             <canvas
-                onClick={(event: any) => {
+                onClick={(event) => {
                     canvasClickCallback(event, setInputColor, ctx)
                 }}
                 id="canvas">
