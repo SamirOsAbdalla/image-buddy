@@ -1,6 +1,7 @@
 import { useState } from "react"
 import "./ImageHandler.css"
 import CanvasBody from "../CanvasBody/CanvasBody"
+import FloodfillButton from "../FloodfillButton/FloodfillButton"
 
 export default function ImageHandler() {
 
@@ -21,7 +22,7 @@ export default function ImageHandler() {
                 <input type="text" className={`${focusedInput == "inputOne" ? "focused__input" : ""}`} onClick={() => setFocusedInput("inputOne")} value={input1Val} onChange={(e) => setInput1Val(e.target.value)} placeholder="Replaced color" />
                 <input type="text" className={`${focusedInput == "inputTwo" ? "focused__input" : ""}`} onClick={() => setFocusedInput("inputTwo")} value={input2Val} onChange={(e) => setInput2Val(e.target.value)} placeholder="Replacement color" />
             </div>
-            <button>Replace Color</button>
+            {ctx && <FloodfillButton ctx={ctx} setCtx={setCtx} replacedColor={input1Val} replacementColor={input2Val} />}
         </div>
     )
 }
